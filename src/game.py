@@ -1,6 +1,7 @@
 from .settings import *
 from .player import Player
 from .init_screen import TelaInicial
+from .collectible_itens import Coletaveis
 
 ### começar a contruir a classe Game, a qual deve conter 
 ### __init__ (inicializando o basico do codigo), Run (com o loop principal), Events, Draw
@@ -32,10 +33,18 @@ class Game:
             ## Group -> evitar usar looping pra controlar os atores, actor.update() and actor.draw()
 
         self.all_sprites = pygame.sprite.Group()
-
+        self.items = pygame.sprite.Group()
         # criando o objeto player
         
         self.player = Player(self.all_sprites)
+
+        # criando os objetos coletaveis 
+
+        self.item1 = Coletaveis("Lanche",(200,200), 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(400,200), 'assets\sprites\coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(600,200), 'assets\sprites\coletavel3.png', self.items)
+    
+        self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
         # DEBBUGANDO
 
@@ -98,6 +107,7 @@ class Game:
         if self.game_state == 'LIVE':
             # 
             self.all_sprites.draw(self.game_surface)
+            self.items.draw(self.game_surface)
 
              # desenha a supercifie e estrutura para depois o rolar da camera
             self.screen.blit(self.game_surface,(0,0))
@@ -108,4 +118,25 @@ class Game:
         # so atualizar se tiver na hora do jogo
         if self.game_state == 'LIVE':
             self.player.update(dt) # se comunicando com a logica de mov do jogador
-        pass
+
+            # colisao
+            self.colisao = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
+            
+            if self.colisao:
+                for item in self.colisao:
+                    print(f'coleteu: {item.name}')
+
+                    if item.name == "Lanche":
+                        self.itens_coletados["Lanche"] += 1
+                    elif item.name == "Arma":
+                        self.itens_coletados["Arma"] += 1
+                    elif item.name == "Cracha":
+                        self.itens_coletados["Cracha"] += 1
+                
+
+                    print(self.itens_coletados)
+
+
+            
+    
+        

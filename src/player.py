@@ -28,9 +28,9 @@ class Player(pygame.sprite.Sprite):
 
         key = pygame.key.get_pressed() # retorna um dic !!!!!!!!!!!
 
-        if key[pygame.K_d] or key[pygame.K_LEFT]:
+        if key[pygame.K_a] or key[pygame.K_LEFT]:
             self.rect.x -= player_speed * dt
-        if key[pygame.K_a] or key[pygame.K_RIGHT]:
+        if key[pygame.K_d] or key[pygame.K_RIGHT]:
             self.rect.x += player_speed * dt
 
     def update(self, dt):
