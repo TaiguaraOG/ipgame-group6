@@ -55,7 +55,7 @@ class Game:
             dt = self.clock.tick(FPS)/1000 # convertendo pra ms // valores presentes em settings
 
             self.events() # começar escrevendo so o quit, depois adicionar os demais 
-            # self.update(dt) 
+            self.update(dt) 
             self.draw()
 
             pygame.display.flip()
@@ -76,7 +76,13 @@ class Game:
                         self.game_state = 'LIVE'
                         # debug 
                         print('o estado do jogo mudou pra LIVE')
-
+            
+            if self.game_state == 'LIVE':
+                if t == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.game_state = 'MENU'
+                        # debug
+                        print('o jogador voltou para o MENU')
 
             
 
@@ -100,6 +106,6 @@ class Game:
     # pensar e estruturar isso daqui qnd tiver os obj
     def update(self, dt):
         # so atualizar se tiver na hora do jogo
-        if self.game_state == 'live':
-            self.player.update(dt)
+        if self.game_state == 'LIVE':
+            self.player.update(dt) # se comunicando com a logica de mov do jogador
         pass
