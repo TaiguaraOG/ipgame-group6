@@ -42,8 +42,8 @@ class Game:
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(200,450), 'assets\sprites\coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(400,450), 'assets\sprites\coletavel2.png', self.items)
+        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
         self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
@@ -126,7 +126,7 @@ class Game:
         f"Lanche: {self.itens_coletados['Lanche']}, "
         f"Arma: {self.itens_coletados['Arma']}, "
         f"Cracha: {self.itens_coletados['Cracha']}"
-                                                     ), True, (250, 250, 250))
+                                                     ), True, (0, 0, 0))
             # mostrando 
             self.screen.blit(self.render_coletaveis, (200,0))
 
