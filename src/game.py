@@ -10,21 +10,21 @@ from .collectible_itens import Coletaveis
 class Game:
     def __init__(self):
         """
-        Docstring for __init__
-        
-        :param self: Description
         """
         # 1 - def janela e superficie
         pygame.init()
         pygame.display.set_caption('CINtra')
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # valores presentes em settings
         self.game_surface = pygame.Surface((MAP_WIDTH, MAP_HEIGHT)) # valores presentes em settings
-        
+        self.background = pygame.image.load('assets/sprites/background1.png')
+        self.background = pygame.transform.scale(self.background, (WINDOW_WIDTH,WINDOW_HEIGHT))
+
+
         # 2 - clock
         self.clock = pygame.time.Clock()
         self.running = True
 
-        self.game_state = "MENU"  #(Ainda é necessário escrever a gerência dos estados em RUN)
+        self.game_state = "MENU"  # (Ainda é necessário escrever a gerência dos estados em RUN)
         self.start_screen = TelaInicial(self.screen)
 
         # 3 - gerência dos grupos e spirts(FUTURO* -> Começado dia 15/12)
@@ -34,15 +34,17 @@ class Game:
 
         self.all_sprites = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
+
+
         # criando o objeto player
         
         self.player = Player(self.all_sprites)
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(200,200), 'assets\sprites\coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(400,200), 'assets\sprites\coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(600,200), 'assets\sprites\coletavel3.png', self.items)
+        self.item1 = Coletaveis("Lanche",(200,450), 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(400,450), 'assets\sprites\coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
@@ -50,6 +52,14 @@ class Game:
 
         print(f"tenho as seguintes sprites: {len(self.all_sprites)}") 
         print(f"player está na posição: {self.player.rect}")
+
+        # FONTE DA HUD -> logica dentro de draw
+        self.font = pygame.font.SysFont("Arial", 30, bold=True)
+
+        
+
+
+
 
     def run(self):
         """
@@ -99,18 +109,26 @@ class Game:
     
     def draw(self):
          # limpando a superficie 
-        self.game_surface.fill(background_color)
+        self.game_surface.blit(self.background, (0,0))
 
         if self.game_state == 'MENU':
             self.start_screen.draw() # objeto criado na linha 27
 
         if self.game_state == 'LIVE':
-            # 
+            # desenhando as sprites
             self.all_sprites.draw(self.game_surface)
             self.items.draw(self.game_surface)
-
-             # desenha a supercifie e estrutura para depois o rolar da camera
+            # criando a tela 
             self.screen.blit(self.game_surface,(0,0))
+
+            # HUD RUDIMENTAR
+            self.render_coletaveis = self.font.render( (
+        f"Lanche: {self.itens_coletados['Lanche']}, "
+        f"Arma: {self.itens_coletados['Arma']}, "
+        f"Cracha: {self.itens_coletados['Cracha']}"
+                                                     ), True, (250, 250, 250))
+            # mostrando 
+            self.screen.blit(self.render_coletaveis, (200,0))
 
 
     # pensar e estruturar isso daqui qnd tiver os obj
@@ -121,6 +139,7 @@ class Game:
 
             # colisao
             self.colisao = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
+
             
             if self.colisao:
                 for item in self.colisao:
@@ -135,7 +154,6 @@ class Game:
                 
 
                     print(self.itens_coletados)
-
 
             
     

@@ -9,7 +9,7 @@ HUD_HEIGHT = 50
 MAP_WIDTH = 800
 MAP_HEIGHT = 600
 
-escala = 0.2
+escala = 0.30
 
 FPS = 60
 
