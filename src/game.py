@@ -3,7 +3,7 @@ from .player import Player
 from .init_screen import TelaInicial
 from .collectible_itens import Coletaveis
 from .obstaculos import Obstaculos
-
+from .end_screen import VictoryScreen
 
 ### começar a contruir a classe Game, a qual deve conter 
 ### __init__ (inicializando o basico do codigo), Run (com o loop principal), Events, Draw
@@ -30,6 +30,7 @@ class Game:
 
         self.game_state = "MENU"  # (Ainda é necessário escrever a gerência dos estados em RUN)
         self.start_screen = TelaInicial(self.screen)
+        self.victory_screen = VictoryScreen(self.screen)
 
         # 3 - gerência dos grupos e spirts(FUTURO* -> Começado dia 15/12)
             ## Sprite -> É uma roupa 
@@ -47,9 +48,9 @@ class Game:
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
+        self.item1 = Coletaveis("Lanche",(300,450), 'assets/sprites/coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(500,450), 'assets/sprites/coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(700,450), 'assets/sprites/coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
@@ -62,7 +63,7 @@ class Game:
         self.font = pygame.font.SysFont("Arial", 30, bold=True)
 
         # criando o obstaculo 
-       # self.obstaculo = Obstaculos((200,200, 'assets\sprites\obstaculo.jpg', self.g_obstaculo))
+       # self.obstaculo = Obstaculos((200,200, 'assets/sprites/obstaculo.jpg', self.g_obstaculo))
         
         # timer 
         self.timer_obstaculo = 0
@@ -84,7 +85,7 @@ class Game:
             dt = self.clock.tick(FPS)/1000 # convertendo pra ms // valores presentes em settings
 
             self.events() # começar escrevendo so o quit, depois adicionar os demais 
-            self.update(dt) 
+            self.update(dt)
             self.draw()
 
             pygame.display.flip()
@@ -105,7 +106,14 @@ class Game:
                         self.game_state = 'LIVE'
                         # debug 
                         print('o estado do jogo mudou pra LIVE')
-            
+                        # 1. Limpa os obstáculos velhos da tela
+                        self.g_obstaculo.empty()
+
+                        # 2. Reseta a posição do Jogador (para o início seguro)
+                        # Ajuste (200, 450) para a posição inicial que você usa
+                        self.player.rect.center = (100, 450)
+
+                        print('NOVO JOGO: Obstáculos limpos e jogador resetado!')
             if self.game_state == 'LIVE':
                 if t == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -113,7 +121,10 @@ class Game:
                         # debug
                         print('o jogador voltou para o MENU')
 
-            
+            if self.game_state == 'VICTORY':
+                if t == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        self.running = False  # Fecha o jogo
 
             ## terminar os demais eventos 
     
@@ -141,6 +152,8 @@ class Game:
             # mostrando 
             self.screen.blit(self.render_coletaveis, (200,0))
 
+        if self.game_state == 'VICTORY':
+            self.victory_screen.draw()
 
     # pensar e estruturar isso daqui qnd tiver os obj
 
@@ -154,14 +167,15 @@ class Game:
             self.timer_obstaculo += dt
 
             if self.timer_obstaculo > 2:
-                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'assets\sprites\obstaculo.jpg', self.g_obstaculo, dt)
+                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'assets/sprites/obstaculo.jpg', self.g_obstaculo)
                 self.timer_obstaculo = 0 
                 self.obstaculo.update(dt)
 
 
             # colisoes
             self.colisao_coletavel = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
-            self.colisao_obstaculo = pygame.sprite.spritecollide(self.player, self.g_obstaculo, dokill=True)
+            self.colisao_obstaculo = pygame.sprite.spritecollide(self.player,self.g_obstaculo,dokill=True,collided=pygame.sprite.collide_rect_ratio(0.6))
+
             
 
             if self.colisao_coletavel:
@@ -183,6 +197,14 @@ class Game:
                 self.game_state = 'MENU'
                 print('O jogador voltou para pro menu por conta de colisao')
 
-            
+                    # Verifica se pegou 1 de cada item
+            tem_lanche = self.itens_coletados["Lanche"] >= 1
+            tem_arma = self.itens_coletados["Arma"] >= 1
+            tem_cracha = self.itens_coletados["Cracha"] >= 1
+
+                    # Se tiver os 3 itens
+            if tem_lanche and tem_arma and tem_cracha:
+                self.game_state = 'VICTORY'  # Muda o estado
+                print("JOGO FINALIZADO! PARABÉNS!")
     
         

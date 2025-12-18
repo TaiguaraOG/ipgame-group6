@@ -7,7 +7,7 @@ class TelaInicial:
 
             self.screen = screen
 
-            self.fundo_inicial = pygame.image.load('assets\screens\Gemini_Generated_Image_f2oaynf2oaynf2oa.png').convert()
+            self.fundo_inicial = pygame.image.load('assets/screens/Gemini_Generated_Image_f2oaynf2oaynf2oa.png').convert()
             self.fundo_inicial = pygame.transform.scale(self.fundo_inicial, (WINDOW_WIDTH, WINDOW_HEIGHT))  
 
         def draw(self):

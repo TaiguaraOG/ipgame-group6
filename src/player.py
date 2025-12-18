@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
 
         super().__init__(group)
 
-        self.image = pygame.image.load(r'C:\Users\maseo\ipgame-group6\assets\sprites\idle.png').convert_alpha()
+        self.image = pygame.image.load('assets/sprites/idle.png').convert_alpha()
         # analisando o tamanho para redimencionar
         width = (self.image.get_width() * escala)
         height = (self.image.get_height() * escala)
