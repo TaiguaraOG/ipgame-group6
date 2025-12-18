@@ -3,6 +3,7 @@ from .player import Player
 from .init_screen import TelaInicial
 from .collectible_itens import Coletaveis
 from .obstaculos import Obstaculos
+from .icones import *
 
 
 ### começar a contruir a classe Game, a qual deve conter 
@@ -19,7 +20,7 @@ class Game:
         pygame.display.set_caption('CINtra')
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # valores presentes em settings
         self.game_surface = pygame.Surface((MAP_WIDTH, MAP_HEIGHT)) # valores presentes em settings
-        self.background = pygame.image.load('assets/sprites/background1.png')
+        self.background = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/background1.png')
         self.background = pygame.transform.scale(self.background, (WINDOW_WIDTH,WINDOW_HEIGHT))
 
 
@@ -41,15 +42,24 @@ class Game:
         self.g_obstaculo = pygame.sprite.Group()
 
 
+        # icones
+        self.imagem_icone_item_1 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel1.png')
+        self.imagem_icone_item_1 = pygame.transform.scale(self.imagem_icone_item_1, (width_icones, height_icone))
+        self.imagem_icone_item_2 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel2.png')
+        self.imagem_icone_item_2 = pygame.transform.scale(self.imagem_icone_item_2, (width_icones, height_icone))
+        self.imagem_icone_item_3 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel3.png')
+        self.imagem_icone_item_3 = pygame.transform.scale(self.imagem_icone_item_3, (width_icones, height_icone))
+
+
         # criando o objeto player
         
         self.player = Player(self.all_sprites)
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
+        self.item1 = Coletaveis("Lanche",(300,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(440,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(600,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
@@ -136,14 +146,19 @@ class Game:
 
             pygame.draw.rect(self.game_surface, (250, 0, 0), self.player.hitbox, 2)
 
-            # HUD RUDIMENTAR
-            self.render_coletaveis = self.font.render( (
-        f"Lanche: {self.itens_coletados['Lanche']}, "
-        f"Arma: {self.itens_coletados['Arma']}, "
-        f"Cracha: {self.itens_coletados['Cracha']}"
-                                                     ), True, (0, 0, 0))
+            # mostra os itens e a quantidade 
+            self.screen.blit(self.imagem_icone_item_1, (10, 10))
+            self.screen.blit(self.imagem_icone_item_2, (10, 60))
+            self.screen.blit(self.imagem_icone_item_3, (10, 110))
+
+            self.render_item_1 = self.font.render((f"x {self.itens_coletados['Lanche']}"), True, (0, 0, 0))
+            self.render_item_2 = self.font.render((f"x {self.itens_coletados['Arma']}"), True, (0, 0, 0))
+            self.render_item_3 = self.font.render((f"x {self.itens_coletados['Cracha']}"), True, (0, 0, 0))
+
             # mostrando 
-            self.screen.blit(self.render_coletaveis, (200,0))
+            self.screen.blit(self.render_item_1, (60,10))
+            self.screen.blit(self.render_item_2, (60,60))
+            self.screen.blit(self.render_item_3, (60,110))
 
 
     # pensar e estruturar isso daqui qnd tiver os obj
@@ -158,7 +173,7 @@ class Game:
             self.timer_obstaculo += dt
 
             if self.timer_obstaculo > 2:
-                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'assets\sprites\obstaculo.jpg', self.g_obstaculo, dt)
+                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'C:/projeto_ip/ipgame-group6/assets/sprites/obstaculo.jpg', self.g_obstaculo, dt)
                 self.timer_obstaculo = 0 
                 self.obstaculo.update(dt)
 
