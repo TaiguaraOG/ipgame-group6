@@ -39,3 +39,4 @@ class Player(pygame.sprite.Sprite):
         area_limite = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
         self.rect.clamp_ip(area_limite)# https://www.pygame.org/docs/ref/rect.html#pygame.Rect.clamp_ip
         
+        

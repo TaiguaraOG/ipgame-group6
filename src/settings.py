@@ -1,6 +1,7 @@
 import pygame
 import os
 import sys
+import random
 from os.path import join
 from os import walk
 

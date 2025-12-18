@@ -2,6 +2,8 @@ from .settings import *
 from .player import Player
 from .init_screen import TelaInicial
 from .collectible_itens import Coletaveis
+from .obstaculos import Obstaculos
+
 
 ### começar a contruir a classe Game, a qual deve conter 
 ### __init__ (inicializando o basico do codigo), Run (com o loop principal), Events, Draw
@@ -9,9 +11,10 @@ from .collectible_itens import Coletaveis
 
 class Game:
     def __init__(self):
-        """
-        """
+
+
         # 1 - def janela e superficie
+
         pygame.init()
         pygame.display.set_caption('CINtra')
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # valores presentes em settings
@@ -21,6 +24,7 @@ class Game:
 
 
         # 2 - clock
+
         self.clock = pygame.time.Clock()
         self.running = True
 
@@ -34,6 +38,7 @@ class Game:
 
         self.all_sprites = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
+        self.g_obstaculo = pygame.sprite.Group()
 
 
         # criando o objeto player
@@ -56,7 +61,11 @@ class Game:
         # FONTE DA HUD -> logica dentro de draw
         self.font = pygame.font.SysFont("Arial", 30, bold=True)
 
+        # criando o obstaculo 
+       # self.obstaculo = Obstaculos((200,200, 'assets\sprites\obstaculo.jpg', self.g_obstaculo))
         
+        # timer 
+        self.timer_obstaculo = 0
 
 
 
@@ -69,6 +78,7 @@ class Game:
         e checando os events (inclusive o QUIT)
         atualizando as ações e desenhando os eventos na tela atraves da intercomunicação com os metodos
         """
+
         while self.running:
 
             dt = self.clock.tick(FPS)/1000 # convertendo pra ms // valores presentes em settings
@@ -118,6 +128,7 @@ class Game:
             # desenhando as sprites
             self.all_sprites.draw(self.game_surface)
             self.items.draw(self.game_surface)
+            self.g_obstaculo.draw(self.game_surface)
             # criando a tela 
             self.screen.blit(self.game_surface,(0,0))
 
@@ -132,17 +143,29 @@ class Game:
 
 
     # pensar e estruturar isso daqui qnd tiver os obj
+
     def update(self, dt):
+
         # so atualizar se tiver na hora do jogo
         if self.game_state == 'LIVE':
+
             self.player.update(dt) # se comunicando com a logica de mov do jogador
+            self.g_obstaculo.update(dt) # tentando arrumar os coletaveis
+            self.timer_obstaculo += dt
 
-            # colisao
-            self.colisao = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
+            if self.timer_obstaculo > 2:
+                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'assets\sprites\obstaculo.jpg', self.g_obstaculo, dt)
+                self.timer_obstaculo = 0 
+                self.obstaculo.update(dt)
 
+
+            # colisoes
+            self.colisao_coletavel = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
+            self.colisao_obstaculo = pygame.sprite.spritecollide(self.player, self.g_obstaculo, dokill=True)
             
-            if self.colisao:
-                for item in self.colisao:
+
+            if self.colisao_coletavel:
+                for item in self.colisao_coletavel:
                     print(f'coleteu: {item.name}')
 
                     if item.name == "Lanche":
@@ -154,6 +177,11 @@ class Game:
                 
 
                     print(self.itens_coletados)
+
+            if self.colisao_obstaculo:
+                    # mudar isso depois 
+                self.game_state = 'MENU'
+                print('O jogador voltou para pro menu por conta de colisao')
 
             
     
