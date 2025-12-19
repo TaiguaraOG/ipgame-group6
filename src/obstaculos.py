@@ -25,11 +25,11 @@ class Obstaculos(pygame.sprite.Sprite):
         super().__init__(group)
 
         self.img_obs = pygame.image.load(image).convert_alpha()
-        width = self.img_obs.get_width() * escala
-        height =  self.img_obs.get_height() * escala
+        width = self.img_obs.get_width() * escala_obstaculo
+        height =  self.img_obs.get_height() * escala_obstaculo
         self.image = pygame.transform.scale(self.img_obs, (width, height))
         self.rect = self.image.get_rect(topleft = pos)
-
+        pygame.draw.rect(self.image, (255, 0, 0), self.image.get_rect(), 2)
         self.velocidade_queda = 200
         
     def update(self, dt):

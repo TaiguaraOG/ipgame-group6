@@ -132,6 +132,10 @@ class Game:
             # criando a tela 
             self.screen.blit(self.game_surface,(0,0))
 
+            # tentando ver a hitbox
+
+            pygame.draw.rect(self.game_surface, (250, 0, 0), self.player.hitbox, 2)
+
             # HUD RUDIMENTAR
             self.render_coletaveis = self.font.render( (
         f"Lanche: {self.itens_coletados['Lanche']}, "
@@ -159,9 +163,17 @@ class Game:
                 self.obstaculo.update(dt)
 
 
-            # colisoes
+            # colisoes -- V1.2 as colisões sao baseadas na hitboxe agora, e n no rect da imagem
+
             self.colisao_coletavel = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
-            self.colisao_obstaculo = pygame.sprite.spritecollide(self.player, self.g_obstaculo, dokill=True)
+
+            self.colisao_obstaculo = False
+
+            for obstaculo in self.g_obstaculo:
+                if self.player.hitbox.colliderect(obstaculo.rect):
+                    self.colisao_obstaculo = True
+                    obstaculo.kill()
+                    break
             
 
             if self.colisao_coletavel:
