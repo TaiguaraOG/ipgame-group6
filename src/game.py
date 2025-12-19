@@ -20,7 +20,7 @@ class Game:
         pygame.display.set_caption('CINtra')
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) # valores presentes em settings
         self.game_surface = pygame.Surface((MAP_WIDTH, MAP_HEIGHT)) # valores presentes em settings
-        self.background = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/background1.png')
+        self.background = pygame.image.load('assets/sprites/background1.png')
         self.background = pygame.transform.scale(self.background, (WINDOW_WIDTH,WINDOW_HEIGHT))
 
 
@@ -43,11 +43,11 @@ class Game:
 
 
         # icones
-        self.imagem_icone_item_1 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel1.png')
+        self.imagem_icone_item_1 = pygame.image.load('assets\sprites\coletavel1.png')
         self.imagem_icone_item_1 = pygame.transform.scale(self.imagem_icone_item_1, (width_icones, height_icone))
-        self.imagem_icone_item_2 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel2.png')
+        self.imagem_icone_item_2 = pygame.image.load('assets\sprites\coletavel2.png')
         self.imagem_icone_item_2 = pygame.transform.scale(self.imagem_icone_item_2, (width_icones, height_icone))
-        self.imagem_icone_item_3 = pygame.image.load('C:/projeto_ip/ipgame-group6/assets/sprites/coletavel3.png')
+        self.imagem_icone_item_3 = pygame.image.load('assets/sprites/coletavel3.png')
         self.imagem_icone_item_3 = pygame.transform.scale(self.imagem_icone_item_3, (width_icones, height_icone))
 
 
@@ -57,9 +57,9 @@ class Game:
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(300,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(440,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(600,450), 'C:/projeto_ip/ipgame-group6/assets/sprites/coletavel3.png', self.items)
+        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(600,450), 'assets/sprites/coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
@@ -173,7 +173,7 @@ class Game:
             self.timer_obstaculo += dt
 
             if self.timer_obstaculo > 2:
-                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'C:/projeto_ip/ipgame-group6/assets/sprites/obstaculo.jpg', self.g_obstaculo, dt)
+                self.obstaculo = Obstaculos((random.randrange(200,800),0), 'assets\sprites\obstaculo.jpg', self.g_obstaculo, dt)
                 self.timer_obstaculo = 0 
                 self.obstaculo.update(dt)
 
