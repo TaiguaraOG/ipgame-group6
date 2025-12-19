@@ -8,7 +8,6 @@ Um jogo 2D desenvolvido em Python com Pygame, onde o jogador deve coletar itens 
 
 
 
-
 ## Breve introdução sobre o jogo e sua mecânica
 
 ### Como executar o jogo 
@@ -95,6 +94,11 @@ ipgame-group6/
   *  Dicionários e tuplas -> Fundamentais para lidar com a posição dos coletáveis, e tuplas foram especialmente relevantes para posições dentro do mapa
   *  Funções -> O maior destaque do uso de funções foi a standalone presente dentro do arquivo de coletaveis, para lidar com a posição dos itens. 
   *  Recursão -> Recursão não fora usado na construção do nosso código
+
+## Link para Notion e exposição do Git log 
+https://www.notion.so/GRUPO-6-CANVAS-26fc9e5de7cf8081aedecfad510ec1ec?source=copy_link
+<img width="1031" height="598" alt="image" src="https://github.com/user-attachments/assets/d67c4a03-35d7-46a0-93fc-6f0fb8a13bb2" />
+
 
 ## Erros, Desafios e Aprendizados 
 ### Erros 
