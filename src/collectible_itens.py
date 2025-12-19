@@ -5,11 +5,11 @@ from .settings import *
 
 def posicao_item():
 
-    posicoes = [] # tupla!!!!!
+    posicoes = [(100, 450)] # tupla!!!!! a p1 é a do player
     margem = 50
     distancia_min = 30 # poderia ter uma logica melhor no lugar aqui, assim tem overlap as vezes 
 
-    while len(posicoes) < 3:
+    while len(posicoes) < 4:
 
         x = random.randrange(margem, MAP_WIDTH - margem) # respeitando o eixo x e sua margem
         y = 450 # (essa altura_fixa no game_data dps)
@@ -26,7 +26,7 @@ def posicao_item():
         if posicao_ok:
             posicoes.append((x,y))
 
-    return posicoes
+    return posicoes[1:]
 
 
 

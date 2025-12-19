@@ -66,8 +66,6 @@ class Game:
         self.item2 = Coletaveis("Arma", posicoes[1], 'assets\sprites\coletavel2.png', self.items)
         self.item3 = Coletaveis("Cracha", posicoes[2], 'assets\sprites\coletavel3.png', self.items)
 
-
-
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
         self.pontuação = 0 
         self.pontuação_vitoria = 10
