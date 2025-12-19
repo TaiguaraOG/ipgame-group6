@@ -11,6 +11,8 @@ MAP_WIDTH = 800
 MAP_HEIGHT = 600
 
 escala = 0.30
+escala_obstaculo = 0.10
+
 
 FPS = 60
 

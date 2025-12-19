@@ -5,6 +5,9 @@ from .collectible_itens import Coletaveis
 from .obstaculos import Obstaculos
 from .end_screen import VictoryScreen
 from .game_over import GameOverScreen
+from .icones import *
+
+
 
 ### começar a contruir a classe Game, a qual deve conter 
 ### __init__ (inicializando o basico do codigo), Run (com o loop principal), Events, Draw
@@ -43,15 +46,24 @@ class Game:
         self.g_obstaculo = pygame.sprite.Group()
 
 
+        # icones
+        self.imagem_icone_item_1 = pygame.image.load('assets\sprites\coletavel1.png')
+        self.imagem_icone_item_1 = pygame.transform.scale(self.imagem_icone_item_1, (width_icones, height_icone))
+        self.imagem_icone_item_2 = pygame.image.load('assets\sprites\coletavel2.png')
+        self.imagem_icone_item_2 = pygame.transform.scale(self.imagem_icone_item_2, (width_icones, height_icone))
+        self.imagem_icone_item_3 = pygame.image.load('assets/sprites/coletavel3.png')
+        self.imagem_icone_item_3 = pygame.transform.scale(self.imagem_icone_item_3, (width_icones, height_icone))
+
+
         # criando o objeto player
         
         self.player = Player(self.all_sprites)
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(300,450), 'assets/sprites/coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(500,450), 'assets/sprites/coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(700,450), 'assets/sprites/coletavel3.png', self.items)
+        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
     
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
@@ -168,19 +180,30 @@ class Game:
             # Passa a superfície do jogo para a tela principal
             self.screen.blit(self.game_surface, (0, 0))
 
-            # HUD
-            self.render_coletaveis = self.font.render(
-                f"Lanche: {self.itens_coletados['Lanche']}, "
-                f"Arma: {self.itens_coletados['Arma']}, "
-                f"Cracha: {self.itens_coletados['Cracha']}",
-                True, (0, 0, 0)
-            )
-            self.screen.blit(self.render_coletaveis, (200, 0))
-            # vitoria ou derrota
+            # tentando ver a hitbox
+
+            pygame.draw.rect(self.game_surface, (250, 0, 0), self.player.hitbox, 2)
+
+            # mostra os itens e a quantidade 
+            self.screen.blit(self.imagem_icone_item_1, (10, 10))
+            self.screen.blit(self.imagem_icone_item_2, (10, 60))
+            self.screen.blit(self.imagem_icone_item_3, (10, 110))
+
+            self.render_item_1 = self.font.render((f"x {self.itens_coletados['Lanche']}"), True, (0, 0, 0))
+            self.render_item_2 = self.font.render((f"x {self.itens_coletados['Arma']}"), True, (0, 0, 0))
+            self.render_item_3 = self.font.render((f"x {self.itens_coletados['Cracha']}"), True, (0, 0, 0))
+
+            # mostrando 
+            self.screen.blit(self.render_item_1, (60,10))
+            self.screen.blit(self.render_item_2, (60,60))
+            self.screen.blit(self.render_item_3, (60,110))
+
+                        # vitoria ou derrota
         if self.game_state == 'VICTORY':
             self.victory_screen.draw()
         if self.game_state == 'GAME_OVER':
             self.game_over_screen.draw()
+
 
     # pensar e estruturar isso daqui qnd tiver os obj
 
@@ -203,6 +226,17 @@ class Game:
             self.colisao_coletavel = pygame.sprite.spritecollide(self.player,self.items,dokill=True,collided=pygame.sprite.collide_rect_ratio(0.5))
             self.colisao_obstaculo = pygame.sprite.spritecollide(self.player,self.g_obstaculo,dokill=True,collided=pygame.sprite.collide_rect_ratio(0.6))
 
+            # colisoes -- V1.2 as colisões sao baseadas na hitboxe agora, e n no rect da imagem
+
+            self.colisao_coletavel = pygame.sprite.spritecollide(self.player, self.items, dokill=True)
+
+            self.colisao_obstaculo = False
+
+            for obstaculo in self.g_obstaculo:
+                if self.player.hitbox.colliderect(obstaculo.rect):
+                    self.colisao_obstaculo = True
+                    obstaculo.kill()
+                    break
             
 
             if self.colisao_coletavel:

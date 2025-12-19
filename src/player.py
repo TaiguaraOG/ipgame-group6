@@ -16,10 +16,15 @@ class Player(pygame.sprite.Sprite):
         height = (self.image.get_height() * escala)
         self.speed = player_speed
 
-        # redimencionando
+
         self.image = pygame.transform.scale(self.image, (width,height))
         self.rect = self.image.get_rect(topleft = (0, 450))
 
+        
+        hitbox_width = width * 0.4  
+        hitbox_height = height * 0.6  
+        self.hitbox = pygame.Rect(0, 0, hitbox_width, hitbox_height)
+        self.hitbox.center = self.rect.center
 
 
     # recebendo as entradas 
@@ -37,6 +42,9 @@ class Player(pygame.sprite.Sprite):
 
         # limitando por onde andar
         area_limite = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        self.rect.clamp_ip(area_limite)# https://www.pygame.org/docs/ref/rect.html#pygame.Rect.clamp_ip
+        self.rect.clamp_ip(area_limite) # https://www.pygame.org/docs/ref/rect.html#pygame.Rect.clamp_ip
+
+        # hitbox sendo att
+        self.hitbox.center = self.rect.center
         
         

@@ -13,3 +13,5 @@ class TelaInicial:
         def draw(self):
             self.screen.blit(self.fundo_inicial, (0,0))
             pass
+
+        
