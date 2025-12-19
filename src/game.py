@@ -1,7 +1,7 @@
 from .settings import *
 from .player import Player
 from .init_screen import TelaInicial
-from .collectible_itens import Coletaveis
+from .collectible_itens import Coletaveis, posicao_item
 from .obstaculos import Obstaculos
 from .end_screen import VictoryScreen
 from .game_over import GameOverScreen
@@ -61,10 +61,11 @@ class Game:
 
         # criando os objetos coletaveis 
 
-        self.item1 = Coletaveis("Lanche",(300,450), 'assets\sprites\coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma",(440,450), 'assets\sprites\coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha",(600,450), 'assets\sprites\coletavel3.png', self.items)
-    
+        posicoes = posicao_item()
+        self.item1 = Coletaveis("Lanche", posicoes[0], 'assets\sprites\coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma", posicoes[1], 'assets\sprites\coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha", posicoes[2], 'assets\sprites\coletavel3.png', self.items)
+
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
 
         # DEBBUGANDO
@@ -96,10 +97,11 @@ class Game:
         # 4. Recria os itens (pois eles foram deletados ao serem pegos)
         self.items.empty()
 
-        # Recria os itens nas posições originais
-        self.item1 = Coletaveis("Lanche", (300, 450), 'assets/sprites/coletavel1.png', self.items)
-        self.item2 = Coletaveis("Arma", (500, 450), 'assets/sprites/coletavel2.png', self.items)
-        self.item3 = Coletaveis("Cracha", (700, 450), 'assets/sprites/coletavel3.png', self.items)
+        # Recria os itens nas posições originais # Mod por Taiguara -> posicao aleataria dos intens 
+        posicoes = posicao_item()
+        self.item1 = Coletaveis("Lanche", posicoes[0], 'assets/sprites/coletavel1.png', self.items)
+        self.item2 = Coletaveis("Arma", posicoes[1], 'assets/sprites/coletavel2.png', self.items)
+        self.item3 = Coletaveis("Cracha", posicoes[2], 'assets/sprites/coletavel3.png', self.items)
 
         # 5. Voltar o estado para LIVE
         self.game_state = 'LIVE'
@@ -160,6 +162,7 @@ class Game:
                         self.running = False  # Desiste
 
             ## terminar os demais eventos 
+
 
     def draw(self):
         # 1. SEGURANÇA: Pinta tudo de preto antes de desenhar qualquer coisa
