@@ -66,7 +66,13 @@ class Game:
         self.item2 = Coletaveis("Arma", posicoes[1], 'assets\sprites\coletavel2.png', self.items)
         self.item3 = Coletaveis("Cracha", posicoes[2], 'assets\sprites\coletavel3.png', self.items)
 
+
+
         self.itens_coletados = {"Lanche" : 0, "Arma": 0, "Cracha": 0}
+        self.pontuação = 0 
+        self.pontuação_vitoria = 10
+        self.valor_itens = {"Lanche": 2, "Arma": 3, "Cracha": 5}
+        
 
         # DEBBUGANDO
 
@@ -93,6 +99,7 @@ class Game:
 
         # 3. Zera o contador de itens e recria o dicionário
         self.itens_coletados = {"Lanche": 0, "Arma": 0, "Cracha": 0}
+        self.pontuação = 0
 
         # 4. Recria os itens (pois eles foram deletados ao serem pegos)
         self.items.empty()
@@ -201,6 +208,10 @@ class Game:
             self.screen.blit(self.render_item_2, (60,60))
             self.screen.blit(self.render_item_3, (60,110))
 
+            # test pra ver os ponto
+            self.render_pontuação = self.font.render(f"pontuação: {self.pontuação}/ {self.pontuação_vitoria}", True, (0, 0, 0))
+            self.screen.blit(self.render_pontuação, (10, 160))
+
                         # vitoria ou derrota
         if self.game_state == 'VICTORY':
             self.victory_screen.draw()
@@ -243,15 +254,20 @@ class Game:
             
 
             if self.colisao_coletavel:
+
+
                 for item in self.colisao_coletavel:
                     print(f'coletou: {item.name}')
 
                     if item.name == "Lanche":
                         self.itens_coletados["Lanche"] += 1
+                        self.pontuação += self.valor_itens["Lanche"]
                     elif item.name == "Arma":
                         self.itens_coletados["Arma"] += 1
+                        self.pontuação += self.valor_itens["Arma"]
                     elif item.name == "Cracha":
                         self.itens_coletados["Cracha"] += 1
+                        self.pontuação += self.valor_itens["Cracha"]
                 
 
                     print(self.itens_coletados)
@@ -265,8 +281,8 @@ class Game:
             tem_arma = self.itens_coletados["Arma"] >= 1
             tem_cracha = self.itens_coletados["Cracha"] >= 1
 
-                    # Se tiver os 3 itens
-            if tem_lanche and tem_arma and tem_cracha:
+                    # se atingir a pontuação
+            if self.pontuação >= self.pontuação_vitoria:
                 self.game_state = 'VICTORY'  # Muda o estado
                 print("JOGO FINALIZADO! PARABÉNS!")
     
