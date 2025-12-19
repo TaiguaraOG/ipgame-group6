@@ -2,9 +2,9 @@
 Um jogo 2D desenvolvido em Python com Pygame, onde o jogador deve coletar itens enquanto desvia de obstáculos que caem do céu. O jogo tem o objetivo de aplicar conceitos de Programação Orientada a Objetos e conceitos de python. O objetivo é coletar três tipos de itens (Lanche, Arma e Crachá) para acumular pontos e vencer o jogo, enquanto desvia de obstáculos. O jogo inicialmente tinha a temática inspirada no Contra, um jogo Run and Gun, mas por conta da limitação de membros da equipe e na problemas no desenvolvimento do jogo, os quais não cabem ser pontuados aqui, resolvemos mudar 
 
 # Sobre a Equipe:
-*Landson - Responsável pela lógica de tela de gameover, tela de vitória e as respectivas lógicas
-* Lucas Mateus - Responsável pela criação da HUD e dos slides
-*Luiz Taiguara de Oliveira Guimarães - Responsável pela arquitetura do código e ideação das classes bases, estruturação do game, player, itens coletaveis, tela inicial. Responsável pela gestão do Notion, bem como o versionamento no GIT e solução dos conflitos de versionamento. Responsável pelo READme.
+ * Landson - Responsável pela lógica de tela de gameover, tela de vitória e as respectivas lógicas
+ * Lucas Mateus - Responsável pela criação da HUD e dos slides
+ * Luiz Taiguara de Oliveira Guimarães - Responsável pela arquitetura do código e ideação das classes bases, estruturação do game, player, itens coletaveis, tela inicial. Responsável pela gestão do Notion, bem como o versionamento no GIT e solução dos conflitos de versionamento. Responsável pelo READme.
 
 
 
